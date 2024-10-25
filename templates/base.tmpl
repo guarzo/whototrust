@@ -1,0 +1,58 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tabulator-tables@4.9.3/dist/css/tabulator.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="loading-indicator" aria-live="polite" aria-label="Loading" role="status" hidden>
+        <div class="spinner"></div>
+    </div>
+
+    <div class="page-container"> <!-- Container to keep the footer at the bottom -->
+        <header>
+            <div class="header-container">
+                <a href="/auth-character" class="button" title="Add Character" data-tooltip="Add Character" aria-label="Add Character">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i>
+                </a>
+                <h1>{{ .Title }}</h1>
+                <div class="header-buttons">
+                    {{ if .LoggedIn }}
+                        <button id="toggle-contacts-btn" class="toggle-contacts-btn button" title="Show Contacts to Delete" data-tooltip="Show Contacts to Delete" aria-label="Toggle Contacts">
+                            <i class="fas fa-toggle-on" aria-hidden="true"></i>
+                        </button>
+                        <a href="/logout" class="logout-button button" title="Logout" data-tooltip="Logout" aria-label="Logout">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        </a>
+                    {{ end }}
+                </div>
+            </div>
+        </header>
+
+        <main class="main-container">
+            {{ block "content" . }}{{ end }}
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <p class="footer-text">Designed for <img src="/static/zoolander-big.png" alt="Zoolanders Logo" class="footer-logo"></p>
+            </div>
+        </footer>
+    </div> <!-- End of page-container -->
+
+    <script src="/static/home.js" defer></script> <!-- Ensure your JS is linked here -->
+</body>
+</html>
+{{ end }}

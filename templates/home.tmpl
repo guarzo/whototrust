@@ -1,0 +1,70 @@
+{{ define "content" }}
+<div class="main-container">
+    <!-- Character Tiles -->
+    <div id="character-container" class="character-grid"></div>
+
+    <!-- Trusted Character Form -->
+    <div id="add-trusted-character-section">
+        <form id="add-trusted-character-form">
+            <input type="text" id="trusted-character-identifier" placeholder="Character to Trust" required>
+            <button type="submit" title="Add Character" data-tooltip="Add Character">
+                <i class="fas fa-user-plus" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Trusted Characters Table -->
+    <div id="trusted-characters-table" class="table-container trusted-table"></div>
+
+    <!-- Trusted Corporation Form -->
+    <div id="add-trusted-corporation-section">
+        <form id="add-trusted-corporation-form">
+            <input type="text" id="trusted-corporation-identifier" placeholder="Corporation to Trust" required>
+            <button type="submit" title="Add Corporation" data-tooltip="Add Corporation">
+                <i class="fas fa-building" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Trusted Corporations Table -->
+    <div id="trusted-corporations-table" class="table-container trusted-table"></div>
+
+    <!-- Untrusted Character Form -->
+    <div id="add-untrusted-character-section">
+        <form id="add-untrusted-character-form">
+            <input type="text" id="untrusted-character-identifier" placeholder="Character to Untrust" required>
+            <button type="submit" title="Add Untrusted Character" data-tooltip="Add Untrusted Character">
+                <i class="fas fa-user-minus" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Untrusted Characters Table -->
+    <div id="untrusted-characters-table" class="table-container untrusted-table" style="display:none;"></div>
+
+    <!-- Untrusted Corporation Form -->
+    <div id="add-untrusted-corporation-section">
+        <form id="add-untrusted-corporation-form">
+            <input type="text" id="untrusted-corporation-identifier" placeholder="Corporation to Untrust" required>
+            <button type="submit" title="Add Untrusted Corporation" data-tooltip="Add Untrusted Corporation">
+                <i class="fas fa-building" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Untrusted Corporations Table -->
+    <div id="untrusted-corporations-table" class="table-container untrusted-table" style="display:none;"></div>
+</div>
+
+<div id="loading-indicator" style="display: none;">Loading...</div>
+<div id="error-message" style="display: none;"></div>
+
+<!-- Data Injection: Serialize Go data structures as JSON for JavaScript -->
+<script>
+    const TabulatorIdentities = {{ .TabulatorIdentities }};
+    let TrustedCharacters = {{ .TrustedCharacters }};
+    let TrustedCorporations = {{ .TrustedCorporations }};
+    let UntrustedCharacters = {{ .UntrustedCharacters }};
+    let UntrustedCorporations = {{ .UntrustedCorporations }};
+</script>
+{{ end }}

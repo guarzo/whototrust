@@ -1,0 +1,31 @@
+{{ define "landing" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <header class="login-header">
+            <div class="header-container">
+                <h1>{{ .Title }}</h1>
+            </div>
+        </header>
+        <main class="main-container center-content">
+            <a href="/login" class="login-image" title="Login with Eve SSO">
+                <img src="/static/eve-sso.png" alt="Login with Eve SSO">
+            </a>
+        </main>
+        <footer>
+            <div class="footer-container">
+                <p class="footer-text">Designed for <img src="/static/zoolander-big.png" alt="Zoolanders Logo" class="footer-logo"></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+{{ end }}

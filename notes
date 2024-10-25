@@ -1,0 +1,1 @@
+// EVE_CLIENT_ID=xxx EVE_CLIENT_SECRET=xxx EVE_CALLBACK_URL=http://localhost:8080/callback go run main.go

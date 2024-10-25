@@ -1,0 +1,334 @@
+/* General styles */
+html, body {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Page container to keep footer at the bottom */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styles */
+header {
+    background-color: #004d4d;
+    color: #ffeb3b;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Header container and centered title */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Header buttons container */
+.header-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Button styling for links and header buttons */
+.button, .logout-button, a.button, a.logout-button, .toggle-contacts-btn {
+    background-color: #00bcd4;
+    color: #1e1e1e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Space between icon and text if any */
+}
+
+.button:hover, .logout-button:hover, a.button:hover, a.logout-button:hover, .toggle-contacts-btn:hover {
+    background-color: #0097a7;
+}
+
+/* Loading Indicator Styles */
+.loading-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 30, 30, 0.7);
+    display: none; /* Ensure it's hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it overlays other elements */
+}
+
+.loading-indicator[hidden] {
+    display: none;
+}
+
+.loading-indicator:not([hidden]) {
+    display: flex;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #00bcd4; /* Teal */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Disabled Button Styles */
+button:disabled, .button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Focus Indicators for Accessibility */
+button:focus, a:focus {
+    outline: 2px solid #ffeb3b;
+    outline-offset: 2px;
+}
+
+/* Main content styling */
+.main-container {
+    padding: 20px;
+    flex: 1; /* Allows main content to expand, pushing the footer down */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Character container and tile styling */
+.character-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.character-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 200px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #2b2b2b;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+.character-tile.untrusted {
+    border-color: yellow;
+}
+
+.character-tile.trusted {
+    border-color: teal;
+}
+
+.character-portrait {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.character-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+/* Button inside character tile */
+.write-contacts-btn {
+    background-color: #00bcd4;
+    color: #1e1e1e;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.write-contacts-btn[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    transform: translate(-50%, -100%);
+    margin-top: -5px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Form and input styling */
+form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+form input[type="text"] {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    height: 32px;
+}
+
+form button {
+    padding: 4px 12px;
+    background-color: #00bcd4;
+    color: #1e1e1e;
+    border: none;
+    border-radius: 4px;
+    height: 32px;
+}
+
+/* Tabulator table adjustments for readability */
+.tabulator {
+    background-color: #333333;
+    color: #e0e0e0;
+    width: 100%;
+    max-width: 800px; /* Adjusted to match the header's max-width */
+    border: none;
+}
+
+.tabulator .tabulator-header {
+    background-color: #005f5f;
+    color: #e0e0e0;
+}
+
+.tabulator .tabulator-row {
+    background-color: #444444;
+    color: #e0e0e0;
+}
+
+.tabulator .tabulator-row:nth-child(even) {
+    background-color: #3a3a3a;
+}
+
+.tabulator .tabulator-row:hover {
+    background-color: #555555;
+}
+
+.tabulator .tabulator-cell {
+    color: #e0e0e0;
+}
+
+/* Footer styles */
+footer {
+    background-color: #004d4d;
+    color: #ffeb3b;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.footer-container {
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.footer-logo {
+    max-height: 40px;
+    max-width: 120px;
+    vertical-align: middle;
+}
+
+/* Centering adjustments for landing page */
+.main-container.center-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Initially hide untrusted tables */
+#untrusted-characters-table,
+#untrusted-corporations-table {
+    display: none;
+}
+
+/* Ensure table containers have consistent width and transitions */
+.table-container {
+    width: 100%;
+    max-width: 800px; /* Adjust based on your design */
+    margin-bottom: 20px;
+    transition: all 0.3s ease; /* Smooth transition for display changes */
+}
+
+/* CSS styles for table borders */
+/* CSS styles for table borders */
+.trusted-table {
+    border: 2px solid teal;
+    box-sizing: border-box;
+}
+
+.untrusted-table {
+    border: 2px solid yellow;
+    box-sizing: border-box;
+}
+/* Smooth transition for table containers and form sections */
+#trusted-characters-table,
+#trusted-corporations-table,
+#untrusted-characters-table,
+#untrusted-corporations-table,
+#add-trusted-character-section,
+#add-trusted-corporation-section,
+#add-untrusted-character-section,
+#add-untrusted-corporation-section {
+    transition: all 0.3s ease;
+}
+
+#untrusted-characters-table,
+#untrusted-corporations-table,
+#add-untrusted-character-section,
+#add-untrusted-corporation-section {
+    display: none;
+}
