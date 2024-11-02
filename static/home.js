@@ -685,8 +685,8 @@ function initializeAllTabulatorTables() {
             data: TrustedCharacters,
             columns: [
                 { title: "Character Name", field: "CharacterName", headerSort: true },
-                { title: "Corporation", field: "CorporationName", headerSort: true },
                 { title: "Added By", field: "AddedBy", headerSort: true },
+                { title: "Corporation", field: "CorporationName", headerSort: true },
                 {
                     title: "Comment",
                     field: "Comment",
@@ -696,7 +696,7 @@ function initializeAllTabulatorTables() {
                 {
                     title: "Remove",
                     formatter: "buttonCross",
-                    width: 100,
+                    width: 10,
                     hozAlign: "center",
                     headerSort: false,
                     cellClick: function (e, cell) {
@@ -730,6 +730,7 @@ function initializeAllTabulatorTables() {
             data: TrustedCorporations,
             columns: [
                 { title: "Corporation Name", field: "CorporationName", headerSort: true },
+                { title: "Added By", field: "AddedBy", headerSort: true },
                 { title: "Alliance Name", field: "AllianceName", headerSort: true },
                 {
                     title: "Comment",
@@ -740,7 +741,7 @@ function initializeAllTabulatorTables() {
                 {
                     title: "Remove",
                     formatter: "buttonCross",
-                    width: 100,
+                    width: 10,
                     hozAlign: "center",
                     headerSort: false,
                     cellClick: function (e, cell) {
@@ -774,6 +775,7 @@ function initializeAllTabulatorTables() {
             data: UntrustedCharacters,
             columns: [
                 { title: "Character Name", field: "CharacterName", headerSort: true },
+                { title: "Added By", field: "AddedBy", headerSort: true },
                 { title: "Corporation", field: "CorporationName", headerSort: true },
                 {
                     title: "Comment",
@@ -784,7 +786,7 @@ function initializeAllTabulatorTables() {
                 {
                     title: "Remove",
                     formatter: "buttonCross",
-                    width: 100,
+                    width: 10,
                     hozAlign: "center",
                     headerSort: false,
                     cellClick: function (e, cell) {
@@ -818,6 +820,7 @@ function initializeAllTabulatorTables() {
             data: UntrustedCorporations,
             columns: [
                 { title: "Corporation Name", field: "CorporationName", headerSort: true },
+                { title: "Added By", field: "AddedBy", headerSort: true },
                 { title: "Alliance Name", field: "AllianceName", headerSort: true },
                 {
                     title: "Comment",
@@ -828,7 +831,7 @@ function initializeAllTabulatorTables() {
                 {
                     title: "Remove",
                     formatter: "buttonCross",
-                    width: 100,
+                    width: 10,
                     hozAlign: "center",
                     headerSort: false,
                     cellClick: function (e, cell) {
