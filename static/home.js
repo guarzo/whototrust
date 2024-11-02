@@ -686,6 +686,13 @@ function initializeAllTabulatorTables() {
             columns: [
                 { title: "Character Name", field: "CharacterName", headerSort: true },
                 { title: "Corporation", field: "CorporationName", headerSort: true },
+                { title: "Added By", field: "AddedBy", headerSort: true },
+                {
+                    title: "Comment",
+                    field: "Comment",
+                    editor: "input", // Makes the cell editable
+                    editable: true // Ensures it's editable by the user
+                },
                 {
                     title: "Remove",
                     formatter: "buttonCross",
@@ -725,6 +732,12 @@ function initializeAllTabulatorTables() {
                 { title: "Corporation Name", field: "CorporationName", headerSort: true },
                 { title: "Alliance Name", field: "AllianceName", headerSort: true },
                 {
+                    title: "Comment",
+                    field: "Comment",
+                    editor: "input", // Makes the cell editable
+                    editable: true // Ensures it's editable by the user
+                },
+                {
                     title: "Remove",
                     formatter: "buttonCross",
                     width: 100,
@@ -751,7 +764,7 @@ function initializeAllTabulatorTables() {
                                 removeEntity('trusted', 'corporation', corporationID.toString()); // Convert to string
                             }
                         });
-                    }
+                    },
                 }
             ]
         },
@@ -762,6 +775,12 @@ function initializeAllTabulatorTables() {
             columns: [
                 { title: "Character Name", field: "CharacterName", headerSort: true },
                 { title: "Corporation", field: "CorporationName", headerSort: true },
+                {
+                    title: "Comment",
+                    field: "Comment",
+                    editor: "input", // Makes the cell editable
+                    editable: true // Ensures it's editable by the user
+                },
                 {
                     title: "Remove",
                     formatter: "buttonCross",
@@ -801,6 +820,12 @@ function initializeAllTabulatorTables() {
                 { title: "Corporation Name", field: "CorporationName", headerSort: true },
                 { title: "Alliance Name", field: "AllianceName", headerSort: true },
                 {
+                    title: "Comment",
+                    field: "Comment",
+                    editor: "input", // Makes the cell editable
+                    editable: true // Ensures it's editable by the user
+                },
+                {
                     title: "Remove",
                     formatter: "buttonCross",
                     width: 100,
@@ -827,7 +852,7 @@ function initializeAllTabulatorTables() {
                                 removeEntity('untrusted', 'corporation', corporationID.toString()); // Convert to string
                             }
                         });
-                    }
+                    },
                 }
             ]
         }
@@ -842,6 +867,82 @@ function initializeAllTabulatorTables() {
     const allTableIds = tableConfigs.map(config => config.tableId);
     setupMutationObservers(allTableIds);
 }
+
+function showUntrustedTables() {
+    const untrustedSections = [
+        "untrusted-characters-table",
+        "untrusted-corporations-table",
+        "add-untrusted-character-section",
+        "add-untrusted-corporation-section"
+    ];
+
+    // Apply display:block to make sure they're treated as visible
+    untrustedSections.forEach(sectionId => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.style.display = "block";
+            element.style.visibility = "visible";
+            element.style.opacity = "1";
+            element.style.position = "relative";
+        }
+    });
+
+    // Force redraw to ensure tables resize
+    tables["untrusted-characters-table"].redraw(true);
+    tables["untrusted-corporations-table"].redraw(true);
+}
+
+function hideUntrustedTables() {
+    const untrustedSections = [
+        "untrusted-characters-table",
+        "untrusted-corporations-table",
+        "add-untrusted-character-section",
+        "add-untrusted-corporation-section"
+    ];
+
+    // Set display:none to fully hide the sections
+    untrustedSections.forEach(sectionId => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.style.display = "none";
+            element.style.visibility = "hidden";
+            element.style.opacity = "0";
+            element.style.position = "absolute";
+        }
+    });
+}
+
+/**
+ * Sends the updated comment to the backend.
+ * @param {number} id - ID to be commented on
+ * @param {string} comment - The updated comment text
+ * @param {string} tableId - ID of the table the comment is in
+ */
+async function updateComment(id, comment, tableId) {
+    const url = `/update-comment`; // Replace with your actual endpoint URL
+
+    try {
+        showLoading();
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, comment, tableId })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to save comment.");
+        }
+
+        toastr.success("Comment saved successfully.");
+    } catch (error) {
+        console.error(`Error saving comment: ${error}`);
+        toastr.error("Failed to save comment. " + error.message);
+    } finally {
+        hideLoading();
+    }
+}
+
 
 /**
  * Removes an entity based on trustStatus and entityType using a single identifier.
@@ -1025,7 +1126,7 @@ function initializeTabulatorTable(tableId, indexField, data, columns) {
     tables[tableId] = new Tabulator(`#${tableId}`, {
         index: indexField,
         data: data || [],
-        layout: "fitColumns",
+        layout: "fitDataStretch",
         responsiveLayout: "hide",
         placeholder: `No ${capitalize(tableId.split('-')[1].slice(0, -1))}s`,
         columns: columns,
@@ -1038,6 +1139,23 @@ function initializeTabulatorTable(tableId, indexField, data, columns) {
         tableBuilt: function () {
             // Ensure resize happens after the table is fully built
             resizeTabulatorTable(tableId);
+        },
+        cellEdited: function (cell) {
+            // Ensure this is for the "Comment" field
+            if (cell.getColumn().getField() === "Comment") {
+                const rowData = cell.getRow().getData();
+                const updatedComment = cell.getValue();
+
+                // Determine if this is a character or corporation table
+                const isCharacterTable = tableId.includes("character");
+                const entityId = isCharacterTable ? rowData.CharacterID : rowData.CorporationID;
+
+                // Log for debugging (optional)
+                console.log(`Updating comment for ${isCharacterTable ? "Character" : "Corporation"} ID: ${entityId}, Comment: ${updatedComment}`);
+                console.log(`Table ID: ${tableId}`);
+                // Call backend function to update the comment
+                updateComment(entityId, updatedComment, tableId);
+            }
         }
     });
 }
@@ -1073,9 +1191,9 @@ function setupToggleButton() {
             if (isShowingUntrusted) {
                 console.log("Switching to trusted view...");
 
-                // Show Trusted Tables and Forms, Hide Untrusted
+                // Show Trusted Tables and Forms, Hide Untrusted using new functions
                 toggleMultipleSections(trustedSections, true);
-                toggleMultipleSections(untrustedSections, false);
+                hideUntrustedTables();
 
                 icon.classList.remove("fa-toggle-off");
                 icon.classList.add("fa-toggle-on");
@@ -1086,9 +1204,9 @@ function setupToggleButton() {
             } else {
                 console.log("Switching to untrusted view...");
 
-                // Show Untrusted Tables and Forms, Hide Trusted
-                toggleMultipleSections(untrustedSections, true);
+                // Show Untrusted Tables and Forms, Hide Trusted using new functions
                 toggleMultipleSections(trustedSections, false);
+                showUntrustedTables();
 
                 icon.classList.remove("fa-toggle-on");
                 icon.classList.add("fa-toggle-off");
@@ -1096,6 +1214,7 @@ function setupToggleButton() {
 
                 isShowingUntrusted = true;
             }
+
 
             // Resize all visible tables after toggling
             setTimeout(() => {
@@ -1125,6 +1244,7 @@ function setupToggleButton() {
 document.addEventListener('DOMContentLoaded', function () {
     // Set initial state of the view
     isShowingUntrusted = false;  // Ensure trusted tables visible and untrusted hidden.
+    hideUntrustedTables();
 
     // Hide untrusted tables and sections immediately on page load
     const untrustedSections = [

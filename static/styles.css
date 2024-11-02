@@ -240,6 +240,14 @@ form button {
     color: #e0e0e0;
 }
 
+/* Tabulator table header styling */
+.tabulator .tabulator-header .tabulator-col {
+    font-family: 'Arial Black', Gadget, sans-serif; /* Custom font for headers */
+    font-weight: bold; /* Make the header text bold */
+    color: #333333; /* Darker shade for better contrast */
+}
+
+
 .tabulator .tabulator-row {
     background-color: #444444;
     color: #e0e0e0;
@@ -289,11 +297,17 @@ footer {
     justify-content: center;
 }
 
-/* Initially hide untrusted tables */
+/* Initially hide untrusted tables using visibility */
 #untrusted-characters-table,
-#untrusted-corporations-table {
-    display: none;
+#untrusted-corporations-table,
+#add-untrusted-character-section,
+#add-untrusted-corporation-section {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    transition: all 0.3s ease;
 }
+
 
 /* Ensure table containers have consistent width and transitions */
 .table-container {

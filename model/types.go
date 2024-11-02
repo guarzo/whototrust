@@ -64,6 +64,7 @@ type TrustedCharacter struct {
 	CorporationName string    `json:"CorporationName"`
 	AddedBy         string    `json:"AddedBy"`
 	DateAdded       time.Time `json:"DateAdded"`
+	Comment         string    `json:"Comment"`
 }
 
 type TrustedCorporation struct {
@@ -73,6 +74,7 @@ type TrustedCorporation struct {
 	AllianceID      int64     `json:"AllianceID"`
 	DateAdded       time.Time `json:"DateAdded"`
 	AddedBy         string    `json:"AddedBy"`
+	Comment         string    `json:"Comment"`
 }
 
 type TrustedCharacters struct {

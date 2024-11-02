@@ -74,6 +74,8 @@ func main() {
 	r.HandleFunc("/auth-character", handlers.AuthCharacterHandler)
 	r.HandleFunc("/logout", handlers.LogoutHandler(sessionStore))
 
+	r.HandleFunc("/update-comment", handlers.UpdateCommentHandler)
+
 	r.HandleFunc("/validate-and-add-trusted-character", handlers.AddTrustedCharacterHandler(sessionStore)) // POST
 	r.HandleFunc("/remove-trusted-character", handlers.RemoveTrustedCharacterHandler)
 
